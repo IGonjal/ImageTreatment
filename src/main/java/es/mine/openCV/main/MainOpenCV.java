@@ -1,4 +1,4 @@
-package es.com.game.actions;
+package es.mine.openCV.main;
 
 import java.util.Arrays;
 
