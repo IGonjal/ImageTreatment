@@ -1,4 +1,4 @@
-package es.mine.imageModification.filters;
+package es.mine.imageModification.imageFilters;
 
 import org.opencv.core.Mat;
 import org.opencv.core.Size;
@@ -20,15 +20,11 @@ public class FilterUser {
 		int column = (int) s.width;
 		for(int i = 0 ; i < row ; i++) {
 			for(int j = 0 ; j < column ; j++) {
-				double[] d = origin.get(i, j);
-				for(int k = 0; k < d.length ; k++) {
-					
-					d  = filter.execute(d);
-					
-				}
-				destiny.put(i, j, d);
+				
+				destiny.put(i, j, filter.execute(origin.get(i, j)));
+				
 			}
-			System.out.println("linea " + i);
+			
 		}
 		return destiny;
 	}

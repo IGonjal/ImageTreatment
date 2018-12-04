@@ -1,4 +1,4 @@
-package es.mine.imageModification.filters;
+package es.mine.imageModification.imageFilters;
 
 public class PublicVariables {
 	
