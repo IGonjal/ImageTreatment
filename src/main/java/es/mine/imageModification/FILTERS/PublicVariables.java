@@ -1,4 +1,4 @@
-package es.mine.openCV.filters;
+package es.mine.imageModification.filters;
 
 public class PublicVariables {
 	
