@@ -5,14 +5,19 @@ import org.opencv.core.Size;
 
 public class FilterUser {
 	
-	Mat origin;
 
-	public FilterUser(Mat in){
-		origin = in;
+
+	public FilterUser(){
 
 	}
 	
-	public Mat use(ThresholdFilter filter) {
+	/**
+	 * Use a filter into a matrix
+	 * 
+	 * @param filter the filter
+	 * @return the matrix with the filter processed
+	 */
+	public Mat use(Mat origin, ThresholdFilter filter) {
 		Mat destiny = origin.clone();
 		
 		Size s = origin.size();
@@ -26,6 +31,21 @@ public class FilterUser {
 			
 		}
 		return destiny;
+	}
+	/**
+	 * Use a filter into a matrix but only on a channel
+	 * 
+	 * @param filter the filter
+	 * @return the matrix with the filter processed
+	 */
+	public Mat use(Mat origin, ThresholdFilter filter, boolean[] channel) {
+		boolean[] oldchan = PublicVariables.getChannels();
+		PublicVariables.setChannels(channel);
+		
+		Mat ret =use(origin, filter);
+		
+		PublicVariables.setChannels(oldchan);
+		return ret;
 	}
 	
 }

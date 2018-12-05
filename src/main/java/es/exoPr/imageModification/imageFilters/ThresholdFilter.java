@@ -16,7 +16,9 @@ public enum ThresholdFilter {
 		LOWER_MANTAIN(ThresholdFilter::lowerMantain),
 		UPPER_MANTAIN(ThresholdFilter::upperMantain),
 		LOWER_ENHANCE(ThresholdFilter::lowerEnhance),
-		UPPER_ENHANCE(ThresholdFilter::upperEnhance);
+		UPPER_ENHANCE(ThresholdFilter::upperEnhance),
+		TO_HIGH(ThresholdFilter::toHigh),
+		TO_LOW(ThresholdFilter::toLow);
 
 	/**
 	 * This function
@@ -26,7 +28,7 @@ public enum ThresholdFilter {
 		doubleToDoubleFunction = f;
 	}
 	
-	public double[] execute(double d[]) {
+	public double[] execute(double[] d) {
 		return doubleToDoubleFunction.apply(d);
 	}
 	
@@ -60,16 +62,16 @@ public enum ThresholdFilter {
 	 * @return the thresholded array
 	 */
 	private static double[] absolute(double[] d) {
-
 		double[] d2 = new double[d.length]; 
-		for(int i =0; i<d.length; i++) {
-			if(d2[i] >= PublicVariables.getThresholdColor()) {
-				d2[i] = PublicVariables.getMaxColor();
-			}else {
-				d2[i] = PublicVariables.getMinColor();
+		for(int i = 0 ; i < d.length ; i++) {
+			if(PublicVariables.getChannels()[i]) {
+				if(d[i] > getThreshold()) {
+					d2[i] = getMaxColor();
+				}else{
+					d2[i] = getMinColor();
+				}
 			}
 		}
-		
 		return d2;
 	}
 	/**
@@ -79,17 +81,17 @@ public enum ThresholdFilter {
 	 * @return the thresholded array
 	 */
 	private static double[] invert(double[] d) {
-		int treshold = PublicVariables.getThresholdColor();
+		
 		double[] d2 = new double[d.length]; 
-		for(int i =0; i<d.length; i++) {
-			if(d2[i] > treshold) {
-				
-				d2[i] = d2[i] - treshold;
-			}else if(d2[i] < treshold){
-				d2[i] = d2[i] + treshold;
+		for(int i = 0 ; i < d.length ; i++) {
+			if(PublicVariables.getChannels()[i]) {
+				if(d[i] > getThreshold()) {
+					d2[i] = d[i] - getThreshold();
+				}else if(d[i] < getThreshold()){
+					d2[i] = d[i] + getThreshold();
+				}
 			}
 		}
-		
 		return d2;
 	}
 	/**
@@ -102,10 +104,12 @@ public enum ThresholdFilter {
 
 		double[] d2 = new double[d.length]; 
 		for(int i =0; i<d.length; i++) {
-			if(d2[i] >= PublicVariables.getThresholdColor()) {
-				d2[i] = d[i];
-			}else {
-				d2[i] = PublicVariables.getMinColor();
+			if(PublicVariables.getChannels()[i]) {
+				if(d[i] >= getThreshold()) {
+					d2[i] = d[i];
+				}else {
+					d2[i] = getThreshold();
+				}
 			}
 		}
 		
@@ -121,10 +125,12 @@ public enum ThresholdFilter {
 
 		double[] d2 = new double[d.length]; 
 		for(int i =0; i<d.length; i++) {
-			if(d2[i] <= PublicVariables.getThresholdColor()) {
-				d2[i] = d[i];
-			}else {
-				d2[i] = PublicVariables.getMinColor();
+			if(PublicVariables.getChannels()[i]) {
+				if(d[i] <= getThreshold()) {
+					d2[i] = d[i];
+				}else {
+					d2[i] = getMinColor();
+				}
 			}
 		}
 		
@@ -140,8 +146,9 @@ public enum ThresholdFilter {
 
 		double[] d2 = new double[d.length]; 
 		for(int i =0; i<d.length; i++) {
-			if(d2[i] >= PublicVariables.getThresholdColor()) {
-				d2[i] = PublicVariables.getMaxColor();
+			
+			if(d[i] >= getThreshold() && PublicVariables.getChannels()[i]) {
+				d2[i] = getMaxColor();
 			}
 		}
 		
@@ -157,12 +164,51 @@ public enum ThresholdFilter {
 
 		double[] d2 = new double[d.length]; 
 		for(int i =0; i<d.length; i++) {
-			if(d2[i] <= PublicVariables.getThresholdColor()) {
-				d2[i] = PublicVariables.getMaxColor();
+			if(d[i] <= getThreshold() && PublicVariables.getChannels()[i]) {
+				d2[i] = getMaxColor();
 			}
 		}
 		
 		return d2;
 	}
-
+	/**
+	 * This method sets the value to the highest value
+	 * 
+	 * @param d the double array
+	 * @return the thresholded array
+	 */
+	private static double[] toHigh(double[] d) {
+		double[] d2 = new double[d.length]; 
+		for(int i =0; i<d.length; i++) {
+			if(PublicVariables.getChannels()[i]) {
+				d2[i] = getMaxColor();
+			}
+		}
+		return d2;
+	}
+	/**
+	 * This method sets the value to the highest value
+	 * 
+	 * @param d the double array
+	 * @return the thresholded array
+	 */
+	private static double[] toLow(double[] d) {
+		double[] d2 = new double[d.length]; 
+		for(int i =0; i<d.length; i++) {
+			if(PublicVariables.getChannels()[i]) {
+				d2[i] = getMinColor();
+			}
+		}
+		return d2;
+	}	
+	
+	private static double getMaxColor() {
+		return PublicVariables.getMaxColor();
+	}
+	private static double getMinColor() {
+		return PublicVariables.getMinColor();
+	}
+	private static double getThreshold() {
+		return PublicVariables.getThresholdColor();
+	}
 }

@@ -2,29 +2,41 @@ package es.exoPr.imageModification.imageFilters;
 
 public class PublicVariables {
 	
-	private static final int DEFAULT_THRESHOLD_COLOR = 125;
-	private static int THRESHOLD_COLOR = DEFAULT_THRESHOLD_COLOR;
-	public static void setThresholdColor(int neww) {
+	private static double DEFAULT_THRESHOLD_COLOR = 125d;
+	private static double THRESHOLD_COLOR = DEFAULT_THRESHOLD_COLOR;
+	public static void setThresholdColor(double neww) {
 		THRESHOLD_COLOR = neww;
 	}
-	public static int getThresholdColor() {
+	public static double getThresholdColor() {
 		return THRESHOLD_COLOR;
 	}
-	private static final int DEFAULT_MAX_COLOR = 255;
-	private static int MAX_COLOR = DEFAULT_MAX_COLOR;
-	public static void setMaxColor(int neww) {
+	
+	private static final double DEFAULT_MAX_COLOR = 255d;
+	private static double MAX_COLOR = DEFAULT_MAX_COLOR;
+	public static void setMaxColor(double neww) {
 		MAX_COLOR = neww;
 	}
-	public static int getMaxColor() {
+	public static double getMaxColor() {
 		return MAX_COLOR;
 	}
-	private static final int DEFAULT_MIN_COLOR = 0;
 	
-	private static int MIN_COLOR = DEFAULT_MIN_COLOR;
-	public static void setMinColor(int neww) {
+	private static final double DEFAULT_MIN_COLOR = 0d;
+	private static double MIN_COLOR = DEFAULT_MIN_COLOR;
+	public static void setMinColor(double neww) {
 		MIN_COLOR = neww;
 	}
-	public static int getMinColor() {
+	public static double getMinColor() {
 		return MIN_COLOR;
+	}
+	
+	private static boolean[] DEFAULT_CHANNELS = {true,true,true};
+	private static boolean[] CHANNELS = DEFAULT_CHANNELS;
+	public static void setChannels(boolean[] neww) {
+		if(neww.length!= 3) {
+			CHANNELS = neww;
+		}
+	}
+	public static boolean[] getChannels() {
+		return CHANNELS;
 	}
 }
