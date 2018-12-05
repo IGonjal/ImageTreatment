@@ -70,6 +70,8 @@ public enum ThresholdFilter {
 				}else{
 					d2[i] = getMinColor();
 				}
+			}else {
+				d2[i] = d[i];
 			}
 		}
 		return d2;
@@ -90,6 +92,8 @@ public enum ThresholdFilter {
 				}else if(d[i] < getThreshold()){
 					d2[i] = d[i] + getThreshold();
 				}
+			}else {
+				d2[i] = d[i];
 			}
 		}
 		return d2;
@@ -110,6 +114,8 @@ public enum ThresholdFilter {
 				}else {
 					d2[i] = getThreshold();
 				}
+			}else {
+				d2[i] = d[i];
 			}
 		}
 		
@@ -131,6 +137,8 @@ public enum ThresholdFilter {
 				}else {
 					d2[i] = getMinColor();
 				}
+			}else {
+				d2[i] = d[i];
 			}
 		}
 		
@@ -149,6 +157,8 @@ public enum ThresholdFilter {
 			
 			if(d[i] >= getThreshold() && PublicVariables.getChannels()[i]) {
 				d2[i] = getMaxColor();
+			}else {
+				d2[i] = d[i];
 			}
 		}
 		
@@ -166,6 +176,8 @@ public enum ThresholdFilter {
 		for(int i =0; i<d.length; i++) {
 			if(d[i] <= getThreshold() && PublicVariables.getChannels()[i]) {
 				d2[i] = getMaxColor();
+			}else {
+				d2[i] = d[i];
 			}
 		}
 		
@@ -182,6 +194,8 @@ public enum ThresholdFilter {
 		for(int i =0; i<d.length; i++) {
 			if(PublicVariables.getChannels()[i]) {
 				d2[i] = getMaxColor();
+			}else {
+				d2[i] = d[i];
 			}
 		}
 		return d2;
@@ -197,6 +211,8 @@ public enum ThresholdFilter {
 		for(int i =0; i<d.length; i++) {
 			if(PublicVariables.getChannels()[i]) {
 				d2[i] = getMinColor();
+			}else {
+				d2[i] = d[i];
 			}
 		}
 		return d2;

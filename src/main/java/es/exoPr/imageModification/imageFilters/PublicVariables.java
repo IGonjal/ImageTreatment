@@ -2,6 +2,9 @@ package es.exoPr.imageModification.imageFilters;
 
 public class PublicVariables {
 	
+	/**
+	 * Threshold for thresholded filters
+	 */
 	private static double DEFAULT_THRESHOLD_COLOR = 125d;
 	private static double THRESHOLD_COLOR = DEFAULT_THRESHOLD_COLOR;
 	public static void setThresholdColor(double neww) {
@@ -14,6 +17,9 @@ public class PublicVariables {
 		THRESHOLD_COLOR=DEFAULT_THRESHOLD_COLOR;
 	}
 	
+	/**
+	 * The max value of color (0,0,0 being black)
+	 */
 	private static final double DEFAULT_MAX_COLOR = 0d;
 	private static double MAX_COLOR = DEFAULT_MAX_COLOR;
 	public static void setMaxColor(double neww) {
@@ -26,6 +32,9 @@ public class PublicVariables {
 		MAX_COLOR=DEFAULT_MAX_COLOR;
 	}
 	
+	/**
+	 * The max value of color (255,255,255 being white)
+	 */
 	private static final double DEFAULT_MIN_COLOR = 255d;
 	private static double MIN_COLOR = DEFAULT_MIN_COLOR;
 	public static void setMinColor(double neww) {
@@ -38,6 +47,9 @@ public class PublicVariables {
 		MIN_COLOR=DEFAULT_MIN_COLOR;
 	}
 	
+	/**
+	 * The channels for knowing if apply the filters (RGB)
+	 */
 	private static boolean[] DEFAULT_CHANNELS = {true,true,true};
 	private static boolean[] CHANNELS = DEFAULT_CHANNELS;
 	public static void setChannels(boolean[] neww) {
