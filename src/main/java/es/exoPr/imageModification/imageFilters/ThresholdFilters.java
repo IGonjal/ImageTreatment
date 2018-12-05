@@ -10,20 +10,20 @@ import java.util.function.Function;
  * @author ismael.gonjal
  *
  */
-public enum Filters {
-		INVERT(Filters::invert),
-		ABSOLUTE(Filters::absolute),
-		LOWER_MANTAIN(Filters::lowerMantain),
-		UPPER_MANTAIN(Filters::upperMantain),
-		LOWER_ENHANCE(Filters::lowerEnhance),
-		UPPER_ENHANCE(Filters::upperEnhance);
+public enum ThresholdFilters {
+		INVERT(ThresholdFilters::invert),
+		ABSOLUTE(ThresholdFilters::absolute),
+		LOWER_MANTAIN(ThresholdFilters::lowerMantain),
+		UPPER_MANTAIN(ThresholdFilters::upperMantain),
+		LOWER_ENHANCE(ThresholdFilters::lowerEnhance),
+		UPPER_ENHANCE(ThresholdFilters::upperEnhance);
 	
 
 	/**
 	 * This function
 	 * @param f
 	 */
-	private Filters(Function<double[], double[]>  f){
+	private ThresholdFilters(Function<double[], double[]>  f){
 		doubleToDoubleFunction = f;
 	}
 	

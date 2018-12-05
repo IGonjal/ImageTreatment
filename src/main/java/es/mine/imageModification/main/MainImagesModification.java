@@ -5,7 +5,7 @@ import org.opencv.core.Size;
 import org.opencv.imgcodecs.Imgcodecs;
 
 import es.exoPr.imageModification.imageFilters.FilterUser;
-import es.exoPr.imageModification.imageFilters.Filters;
+import es.exoPr.imageModification.imageFilters.ThresholdFilters;
 
 public class MainImagesModification {
 
@@ -17,7 +17,7 @@ public class MainImagesModification {
 		
 		FilterUser filterUser = new FilterUser(origin);
 		
-		Mat destiny = filterUser.use(Filters.ABSOLUTE);
+		Mat destiny = filterUser.use(ThresholdFilters.ABSOLUTE);
 				
 		Imgcodecs.imwrite("C:\\Users\\ismael.gonjal\\NuevoArch.jpg", destiny);
 	}

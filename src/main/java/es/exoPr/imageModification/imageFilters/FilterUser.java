@@ -12,7 +12,7 @@ public class FilterUser {
 
 	}
 	
-	public Mat use(Filters filter) {
+	public Mat use(ThresholdFilters filter) {
 		Mat destiny = origin.clone();
 		
 		Size s = origin.size();
