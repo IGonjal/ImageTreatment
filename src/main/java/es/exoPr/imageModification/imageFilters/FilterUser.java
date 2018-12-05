@@ -12,7 +12,7 @@ public class FilterUser {
 
 	}
 	
-	public Mat use(ThresholdFilters filter) {
+	public Mat use(ThresholdFilter filter) {
 		Mat destiny = origin.clone();
 		
 		Size s = origin.size();
@@ -20,9 +20,8 @@ public class FilterUser {
 		int column = (int) s.width;
 		for(int i = 0 ; i < row ; i++) {
 			for(int j = 0 ; j < column ; j++) {
-				
+				//get y put son operaciones a nivel pixel
 				destiny.put(i, j, filter.execute(origin.get(i, j)));
-				
 			}
 			
 		}

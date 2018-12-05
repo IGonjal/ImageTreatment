@@ -5,7 +5,7 @@ import org.opencv.core.Size;
 import org.opencv.imgcodecs.Imgcodecs;
 
 import es.exoPr.imageModification.imageFilters.FilterUser;
-import es.exoPr.imageModification.imageFilters.ThresholdFilters;
+import es.exoPr.imageModification.imageFilters.ThresholdFilter;
 
 public class MainImagesModification {
 
@@ -16,10 +16,12 @@ public class MainImagesModification {
 		Mat origin = Imgcodecs.imread("c:\\image.jpg");
 		
 		FilterUser filterUser = new FilterUser(origin);
+		int i = 1;
+		for(ThresholdFilter t : ThresholdFilter.values()) {
+			Mat destiny = filterUser.use(t);
+			Imgcodecs.imwrite("C:\\Users\\ismael.gonjal\\"+t.getName().replace(" ", "") +".jpg", destiny);
+		}
 		
-		Mat destiny = filterUser.use(ThresholdFilters.ABSOLUTE);
-				
-		Imgcodecs.imwrite("C:\\Users\\ismael.gonjal\\NuevoArch.jpg", destiny);
 	}
 
 }

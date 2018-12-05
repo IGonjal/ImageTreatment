@@ -10,20 +10,19 @@ import java.util.function.Function;
  * @author ismael.gonjal
  *
  */
-public enum ThresholdFilters {
-		INVERT(ThresholdFilters::invert),
-		ABSOLUTE(ThresholdFilters::absolute),
-		LOWER_MANTAIN(ThresholdFilters::lowerMantain),
-		UPPER_MANTAIN(ThresholdFilters::upperMantain),
-		LOWER_ENHANCE(ThresholdFilters::lowerEnhance),
-		UPPER_ENHANCE(ThresholdFilters::upperEnhance);
-	
+public enum ThresholdFilter {
+		INVERT(ThresholdFilter::invert),
+		ABSOLUTE(ThresholdFilter::absolute),
+		LOWER_MANTAIN(ThresholdFilter::lowerMantain),
+		UPPER_MANTAIN(ThresholdFilter::upperMantain),
+		LOWER_ENHANCE(ThresholdFilter::lowerEnhance),
+		UPPER_ENHANCE(ThresholdFilter::upperEnhance);
 
 	/**
 	 * This function
 	 * @param f
 	 */
-	private ThresholdFilters(Function<double[], double[]>  f){
+	private ThresholdFilter(Function<double[], double[]>  f){
 		doubleToDoubleFunction = f;
 	}
 	
@@ -41,16 +40,18 @@ public enum ThresholdFilters {
 	 * @return the name
 	 */
 	public String getName() {
-		return this.getName().replaceAll("_", " ").toUpperCase();
+		return this.name().replaceAll("_", " ").toUpperCase();
 	}
+	
+	
+	
+	
 	
 	
 	/*
 	 * Functions are the ones bonded to the enumeration members 
 	 * 
 	 */
-	
-	
 	
 	/**
 	 * This method applies a threshold puting to the max value everything 
