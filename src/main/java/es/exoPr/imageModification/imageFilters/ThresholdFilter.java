@@ -40,7 +40,7 @@ public enum ThresholdFilter implements FilterExecutableInterface{
 		for(int i =0; i<d1.length; i++) {
 			if(PublicVariables.getChannels()[i]) {
 				
-				d2[1] = function.apply(d1[i]);
+				d2[i] = function.apply(d1[i]);
 				
 			}else {
 				d2[i] = d1[i];
@@ -93,12 +93,10 @@ public enum ThresholdFilter implements FilterExecutableInterface{
 	 * @return the thresholded array
 	 */
 	private static double invert(double d) {
-		if(d > getThreshold()) {
+		if(d >= getThreshold()) {
 			return d - getThreshold();
-		}else if(d < getThreshold()){
+		}else{
 			return d + getThreshold();
-		}else {
-			return d;
 		}
 	}
 	/**

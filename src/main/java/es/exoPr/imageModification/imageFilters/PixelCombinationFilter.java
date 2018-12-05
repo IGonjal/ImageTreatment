@@ -30,12 +30,7 @@ public enum PixelCombinationFilter implements FilterExecutableInterface{
 	}
 	
 	
-	/**
-	 * This function uses abstractly functions in class members
-	 * @param d1
-	 * @param d2
-	 * @return
-	 */
+	
 
 
 	private static double balancedMix(double d1, double d2) {
@@ -48,7 +43,12 @@ public enum PixelCombinationFilter implements FilterExecutableInterface{
 		return (d1*1.7d) + (d2*0.3d) / 2;
 	}
 
-	
+	/**
+	 * This function uses abstractly functions in class members
+	 * @param d1
+	 * @param d2
+	 * @return
+	 */
 	@Override
 	public double[] execute(double[]... d) {
 		if (d.length != numOfParameters()) throw new UnsupportedOperationException("Operacion solo aceptada con 1 parametros");

@@ -18,7 +18,7 @@ public class MainImagesModification {
 		// https://docs.opencv.org/java/2.4.9/
 		System.load("C:\\Users\\ismael.gonjal\\Downloads\\opencv\\build\\java\\x64\\opencv_java343.dll");
 		
-		Mat origin = Imgcodecs.imread("c:\\image.jpg");
+		Mat origin = Imgcodecs.imread("c:\\enrico.jpg");
 		
 		FilterUser filterUser = new FilterUser();
 		
@@ -30,6 +30,9 @@ public class MainImagesModification {
 		// 7 al ser un número de 3 bits
 		for(ThresholdFilter t : ThresholdFilter.values()) {
 			for(int i = 1; i <= 7; i++) {
+				if(i ==5) {
+					System.out.println("staph");
+				}
 				boolean[] channels = {(i&4)==4, (i&2)==2, (i&1)==1};
 				System.out.println(Arrays.toString(channels) + " - "+ i +" - "+ Integer.toBinaryString(i) + " - " + t.getName());
 				Mat destiny = filterUser.use(origin,t, channels);
