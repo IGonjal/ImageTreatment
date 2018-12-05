@@ -63,4 +63,17 @@ public class PublicVariables {
 	public static void restoreDefaultChannels() {
 		CHANNELS=DEFAULT_CHANNELS;
 	}
+	
+	
+	public enum MixingChannels{
+		FIRST(0),SECOND(1),BOTH(2);
+		int val;
+		private MixingChannels(int i){
+			val = i;
+		}
+		public int getVal() {
+			return this.val;
+		}
+	}
+	public static MixingChannels[] DEFAULT_MIX = {MixingChannels.BOTH,MixingChannels.BOTH,MixingChannels.BOTH};
 }

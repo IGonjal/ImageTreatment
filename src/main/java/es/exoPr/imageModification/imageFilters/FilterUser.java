@@ -26,7 +26,9 @@ public class FilterUser {
 		for(int i = 0 ; i < row ; i++) {
 			for(int j = 0 ; j < column ; j++) {
 				//get y put son operaciones a nivel pixel
-				destiny.put(i, j, filter.execute(origin.get(i, j)));
+				double[][] obtained = {origin.get(i, j)};
+				double[] insertion = filter.execute(obtained);
+				destiny.put(i, j, insertion);
 			}
 			
 		}

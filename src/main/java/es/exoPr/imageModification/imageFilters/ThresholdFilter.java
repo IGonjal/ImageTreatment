@@ -10,7 +10,7 @@ import java.util.function.Function;
  * @author ismael.gonjal
  *
  */
-public enum ThresholdFilter {
+public enum ThresholdFilter implements FilterExecutableInterface{
 		INVERT(ThresholdFilter::invert),
 		ABSOLUTE(ThresholdFilter::absolute),
 		LOWER_MANTAIN(ThresholdFilter::lowerMantain),
@@ -20,22 +20,38 @@ public enum ThresholdFilter {
 		TO_HIGH(ThresholdFilter::toHigh),
 		TO_LOW(ThresholdFilter::toLow);
 
+	
+	private Function<Double, Double> function;
 	/**
 	 * This function
 	 * @param f
 	 */
-	private ThresholdFilter(Function<double[], double[]>  f){
-		doubleToDoubleFunction = f;
+	private ThresholdFilter(Function<Double, Double>  f){
+		function = f;
 	}
-	
-	public double[] execute(double[] d) {
-		return doubleToDoubleFunction.apply(d);
+
+	@Override
+	public double[] execute(double[]... d) {
+		if (d.length != numOfParameters()) throw new UnsupportedOperationException("Operacion solo aceptada con 1 parametros");
+		
+		double[] d1 = d[0];
+		double[] d2 = new double[d1.length];
+		
+		for(int i =0; i<d1.length; i++) {
+			if(PublicVariables.getChannels()[i]) {
+				
+				d2[1] = function.apply(d1[i]);
+				
+			}else {
+				d2[i] = d1[i];
+			}
+		}
+		return d2;
 	}
-	
-	
-	private Function<double[], double[]> doubleToDoubleFunction;
-	
-	
+	@Override
+	public int numOfParameters() {
+		return 1;
+	}
 	
 	/**
 	 * Returns the name of the filter
@@ -58,45 +74,32 @@ public enum ThresholdFilter {
 	/**
 	 * This method applies a threshold puting to the max value everything 
 	 * bigger than the threshold and to the min value everything lower
-	 * @param d the double array
-	 * @return the thresholded array
+	 * @param d the double 
+	 * @return the thresholded double
 	 */
-	private static double[] absolute(double[] d) {
-		double[] d2 = new double[d.length]; 
-		for(int i = 0 ; i < d.length ; i++) {
-			if(PublicVariables.getChannels()[i]) {
-				if(d[i] > getThreshold()) {
-					d2[i] = getMaxColor();
-				}else{
-					d2[i] = getMinColor();
-				}
-			}else {
-				d2[i] = d[i];
-			}
+	private static double absolute(double d) { 
+		
+		if(d > getThreshold()) {
+			return getMaxColor();
+		}else{
+			return getMinColor();
 		}
-		return d2;
 	}
+	
 	/**
 	 * This method applies a threshold puting to the max value everything 
 	 * bigger than the threshold and to the min value everything lower
 	 * @param d the double array
 	 * @return the thresholded array
 	 */
-	private static double[] invert(double[] d) {
-		
-		double[] d2 = new double[d.length]; 
-		for(int i = 0 ; i < d.length ; i++) {
-			if(PublicVariables.getChannels()[i]) {
-				if(d[i] > getThreshold()) {
-					d2[i] = d[i] - getThreshold();
-				}else if(d[i] < getThreshold()){
-					d2[i] = d[i] + getThreshold();
-				}
-			}else {
-				d2[i] = d[i];
-			}
+	private static double invert(double d) {
+		if(d > getThreshold()) {
+			return d - getThreshold();
+		}else if(d < getThreshold()){
+			return d + getThreshold();
+		}else {
+			return d;
 		}
-		return d2;
 	}
 	/**
 	 * This method applies a threshold mantainining everything higher than the threshold
@@ -104,22 +107,12 @@ public enum ThresholdFilter {
 	 * @param d the double array
 	 * @return the thresholded array
 	 */
-	private static double[] upperMantain(double[] d) {
-
-		double[] d2 = new double[d.length]; 
-		for(int i =0; i<d.length; i++) {
-			if(PublicVariables.getChannels()[i]) {
-				if(d[i] >= getThreshold()) {
-					d2[i] = d[i];
-				}else {
-					d2[i] = getThreshold();
-				}
-			}else {
-				d2[i] = d[i];
-			}
+	private static double upperMantain(double d) {
+		if(d >= getThreshold()) {
+			return d;
+		}else {
+			return getThreshold();
 		}
-		
-		return d2;
 	}
 	/**
 	 * This method applies a threshold mantainining everything lower than the threshold
@@ -127,22 +120,13 @@ public enum ThresholdFilter {
 	 * @param d the double array
 	 * @return the thresholded array
 	 */
-	private static double[] lowerMantain(double[] d) {
-
-		double[] d2 = new double[d.length]; 
-		for(int i =0; i<d.length; i++) {
-			if(PublicVariables.getChannels()[i]) {
-				if(d[i] <= getThreshold()) {
-					d2[i] = d[i];
-				}else {
-					d2[i] = getMinColor();
-				}
-			}else {
-				d2[i] = d[i];
-			}
+	private static double lowerMantain(double d) {
+		if(d <= getThreshold()) {
+			return d;
+		}else {
+			return getMinColor();
 		}
-		
-		return d2;
+
 	}
 	/**
 	 * This method applies a threshold enhancing to the max value everything higher than the threshold
@@ -150,19 +134,13 @@ public enum ThresholdFilter {
 	 * @param d the double array
 	 * @return the thresholded array
 	 */
-	private static double[] upperEnhance(double[] d) {
+	private static double upperEnhance(double d) {
 
-		double[] d2 = new double[d.length]; 
-		for(int i =0; i<d.length; i++) {
-			
-			if(d[i] >= getThreshold() && PublicVariables.getChannels()[i]) {
-				d2[i] = getMaxColor();
+			if(d >= getThreshold()) {
+				return getMaxColor();
 			}else {
-				d2[i] = d[i];
+				return d;
 			}
-		}
-		
-		return d2;
 	}
 	/**
 	 * This method applies a threshold enhancing to the max value everything lower than the threshold
@@ -170,18 +148,23 @@ public enum ThresholdFilter {
 	 * @param d the double array
 	 * @return the thresholded array
 	 */
-	private static double[] lowerEnhance(double[] d) {
+	private static double lowerEnhance(double d) {
+			if(d <= getThreshold()) {
+				return getMaxColor();
+			}else {
+				return d;
+			}
+	}
+	/**
+	 * This method sets the value to the highest value
+	 * 
+	 * @param d the double array
+	 * @return the thresholded array
+	 */
+	private static double toHigh(double d) {
 
-		double[] d2 = new double[d.length]; 
-		for(int i =0; i<d.length; i++) {
-			if(d[i] <= getThreshold() && PublicVariables.getChannels()[i]) {
-				d2[i] = getMaxColor();
-			}else {
-				d2[i] = d[i];
-			}
-		}
-		
-		return d2;
+		return getMaxColor();
+
 	}
 	/**
 	 * This method sets the value to the highest value
@@ -189,33 +172,8 @@ public enum ThresholdFilter {
 	 * @param d the double array
 	 * @return the thresholded array
 	 */
-	private static double[] toHigh(double[] d) {
-		double[] d2 = new double[d.length]; 
-		for(int i =0; i<d.length; i++) {
-			if(PublicVariables.getChannels()[i]) {
-				d2[i] = getMaxColor();
-			}else {
-				d2[i] = d[i];
-			}
-		}
-		return d2;
-	}
-	/**
-	 * This method sets the value to the highest value
-	 * 
-	 * @param d the double array
-	 * @return the thresholded array
-	 */
-	private static double[] toLow(double[] d) {
-		double[] d2 = new double[d.length]; 
-		for(int i =0; i<d.length; i++) {
-			if(PublicVariables.getChannels()[i]) {
-				d2[i] = getMinColor();
-			}else {
-				d2[i] = d[i];
-			}
-		}
-		return d2;
+	private static double toLow(double d) {
+		return getMinColor();
 	}	
 	
 	private static double getMaxColor() {
@@ -227,4 +185,6 @@ public enum ThresholdFilter {
 	private static double getThreshold() {
 		return PublicVariables.getThresholdColor();
 	}
+
+
 }
