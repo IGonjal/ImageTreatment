@@ -1,4 +1,4 @@
-package es.mine.imageModification.imageFilters;
+package es.exoPr.imageModification.imageFilters;
 
 import java.util.function.Function;
 
@@ -11,9 +11,14 @@ import java.util.function.Function;
  *
  */
 public enum Filters {
-		UPPER_THRESHOLD_TO_TOP( Filters::thresholdToTop ),
-		UPPER_THRESHOLD_MANTAIN(Filters::upperThresholdMantain);
+		INVERT(Filters::invert),
+		ABSOLUTE(Filters::absolute),
+		LOWER_MANTAIN(Filters::lowerMantain),
+		UPPER_MANTAIN(Filters::upperMantain),
+		LOWER_ENHANCE(Filters::lowerEnhance),
+		UPPER_ENHANCE(Filters::upperEnhance);
 	
+
 	/**
 	 * This function
 	 * @param f
@@ -31,8 +36,13 @@ public enum Filters {
 	
 	
 	
-	
-	
+	/**
+	 * Returns the name of the filter
+	 * @return the name
+	 */
+	public String getName() {
+		return this.getName().replaceAll("_", " ").toUpperCase();
+	}
 	
 	
 	/*
@@ -44,11 +54,11 @@ public enum Filters {
 	
 	/**
 	 * This method applies a threshold puting to the max value everything 
-	 * bigger than the threshold 
+	 * bigger than the threshold and to the min value everything lower
 	 * @param d the double array
 	 * @return the thresholded array
 	 */
-	private static double[] thresholdToTop(double[] d) {
+	private static double[] absolute(double[] d) {
 
 		double[] d2 = new double[d.length]; 
 		for(int i =0; i<d.length; i++) {
@@ -62,12 +72,32 @@ public enum Filters {
 		return d2;
 	}
 	/**
-	 * This method applies a threshold mantainining everything bigger than the threshold
+	 * This method applies a threshold puting to the max value everything 
+	 * bigger than the threshold and to the min value everything lower
+	 * @param d the double array
+	 * @return the thresholded array
+	 */
+	private static double[] invert(double[] d) {
+		int treshold = PublicVariables.getThresholdColor();
+		double[] d2 = new double[d.length]; 
+		for(int i =0; i<d.length; i++) {
+			if(d2[i] > treshold) {
+				
+				d2[i] = d2[i] - treshold;
+			}else if(d2[i] < treshold){
+				d2[i] = d2[i] + treshold;
+			}
+		}
+		
+		return d2;
+	}
+	/**
+	 * This method applies a threshold mantainining everything higher than the threshold
 	 * 
 	 * @param d the double array
 	 * @return the thresholded array
 	 */
-	private static double[] upperThresholdMantain(double[] d) {
+	private static double[] upperMantain(double[] d) {
 
 		double[] d2 = new double[d.length]; 
 		for(int i =0; i<d.length; i++) {
@@ -80,4 +110,58 @@ public enum Filters {
 		
 		return d2;
 	}
+	/**
+	 * This method applies a threshold mantainining everything lower than the threshold
+	 * 
+	 * @param d the double array
+	 * @return the thresholded array
+	 */
+	private static double[] lowerMantain(double[] d) {
+
+		double[] d2 = new double[d.length]; 
+		for(int i =0; i<d.length; i++) {
+			if(d2[i] <= PublicVariables.getThresholdColor()) {
+				d2[i] = d[i];
+			}else {
+				d2[i] = PublicVariables.getMinColor();
+			}
+		}
+		
+		return d2;
+	}
+	/**
+	 * This method applies a threshold enhancing to the max value everything higher than the threshold
+	 * 
+	 * @param d the double array
+	 * @return the thresholded array
+	 */
+	private static double[] upperEnhance(double[] d) {
+
+		double[] d2 = new double[d.length]; 
+		for(int i =0; i<d.length; i++) {
+			if(d2[i] >= PublicVariables.getThresholdColor()) {
+				d2[i] = PublicVariables.getMaxColor();
+			}
+		}
+		
+		return d2;
+	}
+	/**
+	 * This method applies a threshold enhancing to the max value everything lower than the threshold
+	 * 
+	 * @param d the double array
+	 * @return the thresholded array
+	 */
+	private static double[] lowerEnhance(double[] d) {
+
+		double[] d2 = new double[d.length]; 
+		for(int i =0; i<d.length; i++) {
+			if(d2[i] <= PublicVariables.getThresholdColor()) {
+				d2[i] = PublicVariables.getMaxColor();
+			}
+		}
+		
+		return d2;
+	}
+
 }

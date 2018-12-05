@@ -1,4 +1,4 @@
-package es.mine.imageModification.imageFilters;
+package es.exoPr.imageModification.imageFilters;
 
 import org.opencv.core.Mat;
 import org.opencv.core.Size;
@@ -6,13 +6,13 @@ import org.opencv.core.Size;
 public class FilterUser {
 	
 	Mat origin;
-	Filters filter;
-	FilterUser(Mat in, Filters f){
+
+	public FilterUser(Mat in){
 		origin = in;
-		filter = f;
+
 	}
 	
-	public Mat use() {
+	public Mat use(Filters filter) {
 		Mat destiny = origin.clone();
 		
 		Size s = origin.size();
@@ -28,4 +28,5 @@ public class FilterUser {
 		}
 		return destiny;
 	}
+	
 }
