@@ -4,7 +4,8 @@ package es.exoPr.imageModification.imageFilters;
 
 public enum PixelCombinationFilter implements FilterExecutableInterface{
 	BALANCED_MIX(PixelCombinationFilter::balancedMix),
-	STRONG_FIRST_MIX_015(PixelCombinationFilter::strongFirstMix015),
+	UNBALANCED_FIRST_STRONG_1_7(PixelCombinationFilter::strongFirstMix015),
+	UNBALANCED_FIRST_STRONG_1_5(PixelCombinationFilter::averageIteratingFirst),
 	PLUS_UPTO_TOP(PixelCombinationFilter::plusUpToTop);
 	
 	
@@ -30,7 +31,9 @@ public enum PixelCombinationFilter implements FilterExecutableInterface{
 	}
 	
 	
-	
+	public String getName() {
+		return this.name().toLowerCase().replace("_", " ");
+	}
 
 
 	private static double balancedMix(double d1, double d2) {
@@ -42,6 +45,10 @@ public enum PixelCombinationFilter implements FilterExecutableInterface{
 	private static double strongFirstMix015(double d1, double d2) {
 		return (d1*1.7d) + (d2*0.3d) / 2;
 	}
+	
+	private static double averageIteratingFirst(double d1, double d2) {
+		return ((((d1+d2) /2) +d1) /2); 	
+		}
 
 	/**
 	 * This function uses abstractly functions in class members
@@ -62,12 +69,14 @@ public enum PixelCombinationFilter implements FilterExecutableInterface{
 			return d3;
 		}
 		for(int i =0; i<d1.length; i++) {
-			if(PublicVariables.DEFAULT_MIX[i].equals(PublicVariables.MixingChannels.FIRST)) {
-				d3[i] = d1[i];
-			}else if(PublicVariables.DEFAULT_MIX[i].equals(PublicVariables.MixingChannels.SECOND)) {
-				d3[i] = d2[i];
-			}else {
-				d3[i] = function.apply(d1[i], d2[i]);
+			if(PublicVariables.getChannels()[i]) {
+				if(PublicVariables.DEFAULT_MIX[i].equals(PublicVariables.MixingChannels.FIRST)) {
+					d3[i] = d1[i];
+				}else if(PublicVariables.DEFAULT_MIX[i].equals(PublicVariables.MixingChannels.SECOND)) {
+					d3[i] = d2[i];
+				}else {
+					d3[i] = function.apply(d1[i], d2[i]);
+				}
 			}
 		}
 		
