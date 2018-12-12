@@ -5,12 +5,6 @@ import org.opencv.core.Size;
 
 public class FilterUser {
 	
-
-
-	public FilterUser(){
-
-	}
-	
 	/**
 	 * Use a filter into a matrix
 	 * 
@@ -34,6 +28,7 @@ public class FilterUser {
 		}
 		return destiny;
 	}
+	
 	/**
 	 * Use a filter into a matrix but only on a channel
 	 * 
@@ -65,6 +60,7 @@ public class FilterUser {
 		PublicVariables.setChannels(oldchan);
 		return ret;
 	}
+	
 	/**
 	 * Use a filter into a matrix
 	 * 
