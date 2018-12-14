@@ -94,14 +94,14 @@ public class MainImagesModification {
 		boolean[] channels = {true, true, true};
 		
 		Channels chans = new Channels(channels);
-		for(int k =60; k< 200 ; k+= 10) {
-			int localSize = ((int) (origin.size().height + origin.size().width)) /k;
+		for(int k =30; k> 0 ; k-= 3) {
+			int localSize = k;
 				
 			ImageFilter imFil = new AverageLocalFilter(origin,chans, localSize);
 				
 			Mat destiny = imFil.applyFilter().get();
 				
-			Imgcodecs.imwrite("C:\\Users\\ismael.gonjal\\TrataImagenes\\Average\\avrg_size_"+ localSize + "_%.jpg", destiny);
+			Imgcodecs.imwrite("C:\\Users\\ismael.gonjal\\TrataImagenes\\Average\\zavrg_size_"+ localSize + "_%.jpg", destiny);
 		}
 		
 	}

@@ -54,10 +54,7 @@ public class AverageLocalFilter extends LocalFilter {
 				ret.put(i, j, d);
 				
 			}
-			System.out.println("Linea " + i + " - channels [" 
-			+ this.channels.getChannels()[0] + ","
-			+ this.channels.getChannels()[1] + ","
-			+ this.channels.getChannels()[2] + "]");
+			System.out.println("Linea " + i + " size " + localSize );
 		}
 		
 		return Optional.of(ret);
