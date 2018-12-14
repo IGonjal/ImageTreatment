@@ -1,4 +1,4 @@
-package es.exoPr.imageModification.imageFilters;
+package es.exoPr.imageModification.imageFilters.filterEnums;
 
 /**
  * This filter implements a method to execute functional interfaces with double values

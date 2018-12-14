@@ -1,4 +1,4 @@
-package es.exoPr.imageModification.imageFilters;
+package es.exoPr.imageModification.imageFilters.filterEnums;
 
 public class PublicVariables {
 	

@@ -9,12 +9,16 @@ import java.util.Arrays;
 import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
 
-import es.exoPr.imageModification.imageFilters.FilterUser;
-import es.exoPr.imageModification.imageFilters.PixelCombinationFilter;
+import es.exoPr.imageModification.imageFilters.Channels;
+import es.exoPr.imageModification.imageFilters.CombineImagesFilter;
+import es.exoPr.imageModification.imageFilters.ImageFilter;
 import es.exoPr.imageModification.imageFilters.ThresholdFilter;
+import es.exoPr.imageModification.imageFilters.filterEnums.PixelCombinationFilter;
+import es.exoPr.imageModification.imageFilters.filterEnums.ThresholdType;
+
 
 public class MainImagesModification {
-
+	private static final double THRESHOLD = 125d;
 	public static void main(String[] args) {
 		String s[] = {"c:\\enrico.jpg","c:\\enrico2.jpg"};
 		// https://docs.opencv.org/java/2.4.9/
@@ -22,7 +26,7 @@ public class MainImagesModification {
 		
 		Mat origin = Imgcodecs.imread(s[0]);
 		Mat origin2 = Imgcodecs.imread(s[1]);
-		FilterUser filterUser = new FilterUser();
+		
 		
 		
 		try (FileOutputStream fos = new FileOutputStream(new File("C:\\Users\\ismael.gonjal\\TrataImagenes\\ORIGINAL.jpg"));){
@@ -33,37 +37,53 @@ public class MainImagesModification {
 		} catch (IOException e) {}
 		
 		// 7 al ser un número de 3 bits
-		for(ThresholdFilter t : ThresholdFilter.values()) {
+		for(ThresholdType t : ThresholdType.values()) {
 			for(int i = 1; i <= 7; i++) {
 				if(i ==5) {
 					System.out.println("staph");
 				}
 				boolean[] channels = {(i&4)==4, (i&2)==2, (i&1)==1};
+				Channels chans = new Channels(channels);
+				
+				ImageFilter imFil = new ThresholdFilter(origin,chans,THRESHOLD,t);
 				System.out.println(Arrays.toString(channels) + " - "+ i +" - "+ Integer.toBinaryString(i) + " - " + t.getName());
-				Mat destiny = filterUser.use(origin,t, channels);
+				Mat destiny = imFil.applyFilter().get();
+
 				Imgcodecs.imwrite("C:\\Users\\ismael.gonjal\\TrataImagenes\\"+t.getName().replace(" ", "") +"_" +i +".jpg", destiny);
 			}
 		}
 		// 7 al ser un número de 3 bits
-		for(ThresholdFilter t1 : ThresholdFilter.values()) {
-			for(ThresholdFilter t2 : ThresholdFilter.values()) {
+		for(ThresholdType t1 : ThresholdType.values()) {
+			for(ThresholdType t2 : ThresholdType.values()) {
 				for(int i = 1; i <= 7; i++) {
 					boolean[] channels = {(i&4)==4, (i&2)==2, (i&1)==1};
 					for(PixelCombinationFilter f : PixelCombinationFilter.values()) {
+						Channels chans = new Channels(channels);
 						System.out.println(Arrays.toString(channels) + " - "+ i +" - "+ Integer.toBinaryString(i) + " - " +f.getName() + "("+ t1.getName() +" , "+t2.getName()+")" );
-						Mat aux1 = filterUser.use(origin,t1, channels);
-						Mat aux2 = filterUser.use(origin2,t2, channels);
-						Mat destiny = filterUser.use(aux1,aux2,f, channels);
 						
-						Imgcodecs.imwrite("C:\\Users\\ismael.gonjal\\TrataImagenes\\combined\\"+
-											f.getName().replace(" ", "")+
-											"\\"+
-											t1.getName().replace(" ", "")+
-											"_"+
-											t2.getName().replace(" ", "")+
-											"_"+
-											i+
-											".jpg", destiny);
+						ImageFilter imFil = new ThresholdFilter(origin,chans,THRESHOLD,t1);
+						Mat aux1 = imFil.applyFilter().get();
+						
+						
+						imFil = new ThresholdFilter(origin2,chans,THRESHOLD,t1);
+						Mat aux2 = imFil.applyFilter().get();
+						
+						imFil = new CombineImagesFilter(aux1, aux2, f, chans); 
+						Mat destiny = imFil.applyFilter().get();
+						
+						
+						File fil = new File("C:\\Users\\ismael.gonjal\\TrataImagenes\\combined\\"+
+								f.getName().replace(" ", "")+
+								"\\"+
+								t1.getName().replace(" ", "")+
+								"_"+
+								t2.getName().replace(" ", "")+
+								"_"+
+								i+
+								".jpg");
+						fil.mkdirs();
+						fil.delete();
+						Imgcodecs.imwrite(fil.getPath(), destiny);
 					}
 				}
 			}		

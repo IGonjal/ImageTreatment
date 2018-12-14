@@ -1,6 +1,4 @@
-package es.exoPr.imageModification.imageFilters;
-
-
+package es.exoPr.imageModification.imageFilters.filterEnums;
 
 public enum PixelCombinationFilter implements FilterExecutableInterface{
 	BALANCED_MIX(PixelCombinationFilter::balancedMix),

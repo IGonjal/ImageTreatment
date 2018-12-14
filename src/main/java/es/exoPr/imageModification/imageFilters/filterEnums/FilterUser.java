@@ -1,4 +1,4 @@
-package es.exoPr.imageModification.imageFilters;
+package es.exoPr.imageModification.imageFilters.filterEnums;
 
 import org.opencv.core.Mat;
 import org.opencv.core.Size;
@@ -11,9 +11,11 @@ public class FilterUser {
 	 * @param filter the filter
 	 * @return the matrix with the filter processed
 	 */
-	public Mat use(Mat origin, ThresholdFilter filter) {
+	private Mat use(Mat origin, ThresholdType filter, double threshold) {
 		Mat destiny = origin.clone();
 		
+		double thr = PublicVariables.getThresholdColor();
+		PublicVariables.setThresholdColor(threshold);
 		Size s = origin.size();
 		int row = (int) s.height;
 		int column = (int) s.width;
@@ -26,6 +28,7 @@ public class FilterUser {
 			}
 			
 		}
+		PublicVariables.setThresholdColor(thr);
 		return destiny;
 	}
 	
@@ -35,11 +38,11 @@ public class FilterUser {
 	 * @param filter the filter
 	 * @return the matrix with the filter processed
 	 */
-	public Mat use(Mat origin, ThresholdFilter filter, boolean[] channel) {
+	public Mat use(Mat origin, ThresholdType filter,double thr , boolean[] channel) {
 		boolean[] oldchan = PublicVariables.getChannels();
 		PublicVariables.setChannels(channel);
 		
-		Mat ret =use(origin, filter);
+		Mat ret =use(origin, filter, thr);
 		
 		PublicVariables.setChannels(oldchan);
 		return ret;

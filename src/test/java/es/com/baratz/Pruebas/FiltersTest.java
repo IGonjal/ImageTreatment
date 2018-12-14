@@ -1,10 +1,6 @@
 package es.com.baratz.Pruebas;
 
-import org.opencv.core.Mat;
-import org.opencv.imgcodecs.Imgcodecs;
 
-import es.exoPr.imageModification.imageFilters.FilterUser;
-import es.exoPr.imageModification.imageFilters.ThresholdFilter;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -22,13 +18,7 @@ public class FiltersTest
      */
     public FiltersTest( String testName )
     {
-        super( testName );
-        
-
-        
-        
-        
-        
+        super( testName );        
     }
 
     /**
