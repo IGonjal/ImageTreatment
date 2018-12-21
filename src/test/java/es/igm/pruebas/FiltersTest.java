@@ -1,4 +1,4 @@
-package es.com.baratz.Pruebas;
+package es.igm.pruebas;
 
 
 import junit.framework.Test;
